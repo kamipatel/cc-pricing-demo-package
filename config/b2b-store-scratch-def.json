@@ -1,0 +1,34 @@
+{
+    "storeName": "Test B2B Company",
+    "edition": "B2B",
+    "template": "B2B Commerce (LWR)",
+    "settings": {
+        "checkout": {
+            "paymentGatewayIntegration": "Salesforce",
+            "notifications": true,
+            "integrations": true,
+            "retriggerPlaceOrder": true
+        },
+        "users": {
+            "buyerUserProfileSetup": true,
+            "sharingSettingsSetup": true
+        },
+        "diagnostic": {
+            "commerceDiagnosticEventSetup": true
+        },
+        "tests": {
+            "integration": true
+        },
+        "checkoutMain": true,
+        "lwc": {
+            "classes": [
+                "B2BGetInfo.cls*",
+                "B2BUtils.cls*",
+                "B2BPaymentController.cls*",
+                "B2BAuthorizeTokenizedPayment.cls*"
+            ],
+            "lwc": ["paymentMethod", "billingAddressSelector", "cardPaymentMethod", "navigationButtons"]
+        },
+        "productImport": ["Alpine-small.csv"]
+    }
+}
