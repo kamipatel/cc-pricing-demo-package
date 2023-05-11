@@ -9,8 +9,12 @@
       "versionDescription": ""
     }
   ],
-  "name": "pricingdemopkg",
-  "namespace": "",
+  "name": "pricingdemopkg app",
+  "namespace": "kampricingdemopkg",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "58.0"
+  "sourceApiVersion": "58.0",
+  "packageAliases": {
+    "myapp": "0HoB0000000010kKAA",
+    "myapp@0.1.0-1": "04tB0000000BiscIAC"
+  }
 }
