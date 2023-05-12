@@ -37,7 +37,7 @@ global class PricingDemoService extends commercestorepricing.PricingService {
                   100.00,
                   90.00
                 );
-                response.addPricingResponseItem(responseItem);
+               response.addPricingResponseItem(responseItem);
                 i++;
                 if(i >= 2){ 
                   break;
