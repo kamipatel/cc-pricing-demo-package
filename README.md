@@ -7,6 +7,9 @@ sudo sfdx plugins:update
 
 sfdx plugins:install https://github.com/forcedotcom/commerce-on-lightning.git\#develop
 
+# For post install script
+https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/push_upgrade_post_install_script.htm?q=post%20install
+
 # packaging
 sfdx config:set org-api-version=58.0
 
@@ -61,7 +64,9 @@ sfdx force:org:open -o "myapp"
 sfdx force:source:pull -o "myapp"
 
 #### Apex test
-sfdx force:apex:test:run --synchronous --resultformat tap --codecoverage -r human  -o "myapp"
+sfdx force:apex:test:run --synchronous --resultformat tap --code-coverage -r human  -o "myapp"
+
+sfdx force:apex:test:run --synchronous --resultformat tap --codecoverage -r human -u mystore10@kam.org
 
 #### Package creation
 sfdx package:create --name "pricingdemoapp" --package-type Managed  --target-dev-hub "mydevhub" --path force-app
