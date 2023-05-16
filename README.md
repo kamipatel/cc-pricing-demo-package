@@ -59,7 +59,7 @@ sfdx org open --target-org teststore1@kam.demo
 sfdx commerce:store:create -n evtest -o b2c -b teststoredemouser+1@gmail.com -u teststore1@kam.demo -v kamlesh.patel-6fd1@force.com --json 
 
 # Install the package in the org
-sfdx package install —package kampricingdemo@0.1.0-1 —target-org teststore1@kam.demo
+sfdx force:package:install --package kampricingdemo@0.1.0-1 --target-org teststore1@kam.demo
 
 # Register pricing extension class in the RegisteredExternalService
 sfdx commerce:extension:register --targetusername teststore1@kam.demo --apex-class-name PricingDemoService --extension-point-name Commerce_Domain_Pricing_Service --registered-extension-name PricingDemoService
