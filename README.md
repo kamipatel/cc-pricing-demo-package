@@ -1,3 +1,8 @@
+
+Install the sf CLI from <a href="https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm">here</a>
+sfdx plugins:install @salesforce/commerce
+sfdx plugins:install @salesforce/plugin-packaging
+
 Devhub org: kamlesh.patel-8zqt@force.com
 
 # Signup for a devhub and namespace org
@@ -63,7 +68,6 @@ sfdx force:package:install --package kampricingdemo@0.1.0-1 --target-org teststo
 
 # Register pricing extension class in the RegisteredExternalService
 sfdx commerce:extension:register --targetusername teststore1@kam.demo --apex-class-name PricingDemoService --extension-point-name Commerce_Domain_Pricing_Service --registered-extension-name PricingDemoService
-
 
 # Manual - Associate the extension (from the package) to the evtest store. Validate the pricing on the store front
 
