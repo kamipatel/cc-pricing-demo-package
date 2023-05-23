@@ -59,13 +59,33 @@ global class PricingDemoService extends commercestorepricing.PricingService {
     // list price, unit pricebook entry id, unit adjustment amount, total line amount, total adjustment
     // amount, total price, and total list price.
     public override commercestorepricing.TransactionalPricingResponse processTransactionalPrice(
-      commercestorepricing.TransactionalPricingRequest request2
+      commercestorepricing.TransactionalPricingRequest request
     ) {
+
+      System.debug('In commercestorepricing.PricingService processTransactionalPrice, request=' + request);
   
-      System.debug('In commercestorepricing.PricingService processTransactionalPrice, request=' + request2);
-      return super.processTransactionalPrice(request2);
+      // Call the default internal pricing implemenation with either original request or modified request
+      commercestorepricing.TransactionalPricingResponse response = super.processTransactionalPrice(request);
+
+      commercestorepricing.TxnPricingResponseItemCollection responseCollection = response.getTxnPricingResponseItems();
+
+      commercestorepricing.TxnPricingRequestItemCollection requestCollection = request.getTxnPricingRequestItems();
+      for (Integer j = 0; j < requestCollection.size(); j++) {
+        Double amount = 0.0;
+        commercestorepricing.TransactionalPricingRequestItem requestItem = requestCollection.get(j);
+        commercestorepricing.TransactionalPricingResponseItem responseItem = responseCollection.get(j);
+        Decimal quantity = requestItem.getQuantity();
+        responseItem.setTotalPrice(90 * quantity);
+        responseItem.setTotalListPrice(100 * quantity);
+        responseItem.setUnitPrice(90);
+      }
+
+      // Update the total adjustment and amount at header level accordingly
+      response.setTotalAmount(response.getTotalProductAmount());
   
+      return response;
     }
+
   
     private Map<String, String> getMappedCurrencies() {
       Map<String, String> mappedCurrencies = new Map<String, String>();

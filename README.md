@@ -1,6 +1,7 @@
 
 Install the sf CLI from <a href="https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm">here</a>
 sfdx plugins:install @salesforce/commerce
+sfdx plugins:install https://github.com/forcedotcom/commerce-on-lightning.git\#develop
 sfdx plugins:install @salesforce/plugin-packaging
 
 Devhub org: kamlesh.patel-8zqt@force.com
@@ -21,14 +22,23 @@ sfdx force:auth:web:login -d -a "mydevhub"
 # Create scratch org with commerce features
 sfdx commerce:scratchorg:create -u mystore1@kam.demo -a "myapp" -v kamlesh.patel-8zqt@force.com -w 30 --json
 
+sfdx commerce:scratchorg:create -u mystore91@kam.demo -a "myapp" -v kamlesh.patel-8zqt@force.com -w 30 --json
+
+sfdx commerce:scratchorg:create -u chris@app.demo -a "myapp2" -v kamlesh.patel-8zqt@force.com --json
+
 # Open the scartch org
 sfdx org open --target-org mystore1@kam.demo
+
+sfdx org open --target-org mystore91@kam.demo
 
 # Perform manual step to disable Digital Experience platform check box 
 # Perform manual step to create a b2c storefront site from Digital Experience platform 
 
 # Create a commerce storefront with products, cms etc
 sfdx commerce:store:create -n ev1 -o b2c -b mystoredemouser+1@gmail.com -u mystore1@kam.demo -v kamlesh.patel-8zqt@force.com
+
+sfdx commerce:store:create -n ev1 -o b2b -b mystoredemouser+9@gmail.com -u mystore91@kam.demo -v kamlesh.patel-8zqt@force.com
+
 
 # Push the pricing service apex code to the scratch org
 sfdx force:source:push -o "myapp"
