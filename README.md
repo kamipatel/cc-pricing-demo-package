@@ -25,8 +25,6 @@ sfdx commerce:scratchorg:create -u mystore1@kam.demo -a "myapp" -v kamlesh.patel
 ## Open the scartch org
 sfdx org open --target-org mystore1@kam.demo
 
-sfdx org open --target-org mystore91@kam.demo
-
 ## Perform manual step to disable Digital Experience platform check box 
 ## Perform manual step to create a b2c storefront site from Digital Experience platform 
 
@@ -73,4 +71,5 @@ sfdx force:package:install --package kampricingdemo@0.1.0-1 --target-org teststo
 sfdx commerce:extension:register --targetusername teststore1@kam.demo --apex-class-name PricingDemoService --extension-point-name Commerce_Domain_Pricing_Service --registered-extension-name PricingDemoService
 
 ## Manual - Associate the extension (from the package) to the evtest store. Validate the pricing on the store front
+
 
