@@ -6,9 +6,9 @@ sfdx plugins:install @salesforce/plugin-packaging
 
 Devhub org: kamlesh.patel-8zqt@force.com
 
-# Signup for a devhub and namespace org
+## Signup for a devhub and namespace org
 
-# Enable DevHub and 2GP packaing in the devhub org
+## Enable DevHub and 2GP packaing in the devhub org
 
 # Create a managed package namespace in the namespace org
 
