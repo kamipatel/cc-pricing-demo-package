@@ -5,12 +5,41 @@ global class PricingDemoServiceTest {
         insert testAccount;
         WebStore testWebStore = new WebStore(Name='TestWebStore');
         insert testWebStore;
+
+        // Instantiate the Pricebook2 record first, setting the Id
+        Pricebook2 standardPricebook = new Pricebook2(
+            Id = Test.getStandardPricebookId(),
+            IsActive = true
+        );
+        
+        // Run an update DML on the Pricebook2 record
+        // This is the weird workaround that enables IsStandard to become true
+        // on the PricebookEntry record
+        update standardPricebook;
+        
+        // Re-Query for the Pricebook2 record, for debugging
+        standardPricebook = [SELECT IsStandard FROM Pricebook2 WHERE Id = :standardPricebook.Id];
+                
+        // Create the Product
+        Product2 testProduct = new Product2(
+            Name = 'P1', 
+            IsActive = true
+        );
+        insert testProduct;
+        
+        // Create the PricebookEntry
+        PricebookEntry testPbe = new PricebookEntry(
+            Pricebook2Id = standardPricebook.Id,
+            Product2Id = testProduct.Id,
+            UnitPrice = 100,
+            IsActive = true
+        );
+        
+        insert testPbe;
     }
     
     @isTest static void testProcessPriceIntegration() {
         System.debug('In PricingDemoServiceTest testProcessPriceIntegration');        
-        // Because test methods don't support web service callouts, we create a mock response based on a static resource.
-        // To create the static resource from the Developer Console, select File | New | Static Resource
 
         // Create request
         Account account = [SELECT Id FROM Account WHERE Name='TestAccount' LIMIT 1];
@@ -32,34 +61,41 @@ global class PricingDemoServiceTest {
         System.assertEquals(1, response.getPricingResponseItems().size());
         Test.stopTest();
     }
-    
-    /*
-    @isTest static void testProcessPriceIntegrationWithError() {
-        // Because test methods don't support web service callouts, we create a mock response based on a static resource.
-        // To create the static resource from the Developer Console, select File > New > Static Resource
-        System.debug('In PricingDemoServiceTest testProcessPriceIntegrationWithError');
+
+    //    public override commercestorepricing.TransactionalPricingResponse processTransactionalPrice(
+        //commercestorepricing.TransactionalPricingRequest request
+
+
+    @isTest static void testProcessTransactionalPrice() {
+        System.debug('In PricingDemoServiceTest testProcessTransactionalPrice');        
 
         // Create request
         Account account = [SELECT Id FROM Account WHERE Name='TestAccount' LIMIT 1];
         WebStore webStore = [SELECT Id FROM WebStore WHERE Name='TestWebStore' LIMIT 1];
-        
-        commercestorepricing.PricingRequestItem requestItem = new commercestorepricing.PricingRequestItem('UnknownProductID');
-        commercestorepricing.PricingRequest request = new commercestorepricing.PricingRequest();
+        Product2 product = [SELECT Id FROM Product2 WHERE Name='P1' LIMIT 1];
+                
+        String lineId=product.Id;
+        String productId = product.Id;
+        Decimal quantity = 100;
+
+        Test.startTest();
+
+        commercestorepricing.TransactionalPricingRequest request = new commercestorepricing.TransactionalPricingRequest();
+        commercestorepricing.TransactionalPricingRequestItem requestItem = new commercestorepricing.TransactionalPricingRequestItem( lineId,  productId,  quantity);                 
         request.setWebStoreId(webStore.Id);
         request.setEffectiveAccountId(account.Id);
-        request.addPricingRequestItem(requestItem);
+        request.setCurrencyIsoCode('USD');
+        request.addTxnPricingRequestItem(requestItem); 
         
-        // Test: execute the pricing integration for the test request.
         PricingDemoService apexSample = new PricingDemoService();
-        commercestorepricing.PricingResponse response = apexSample.processPrice(request);
+        commercestorepricing.TransactionalPricingResponse response = apexSample.processTransactionalPrice(request);
         // Verify: the integration executed successfully
         //System.assertEquals(true, response.isSuccess());
-        //System.assertEquals(1, response.getPricingResponseItems().size());
-        //System.assertEquals(false, response.getPricingResponseItems().get(0).isSuccess());
+        //System.assertNotEquals(1, response.getTotalAmount());
         Test.stopTest();
     }
-    */
-    
+
+
     @isTest static void testAppendField(){
         System.debug('In PricingDemoServiceTest testAppendField');
     

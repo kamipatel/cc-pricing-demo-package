@@ -5,8 +5,8 @@
       "default": true
     }
   ],
-  "name": "xyzpricingdemo",
-  "namespace": "tbd",
+  "name": "kamipricingdemo",
+  "namespace": "pricingextdemo",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "58.0"
 }
