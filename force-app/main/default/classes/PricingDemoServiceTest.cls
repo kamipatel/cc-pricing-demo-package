@@ -12,14 +12,6 @@ global class PricingDemoServiceTest {
             IsActive = true
         );
         
-        // Run an update DML on the Pricebook2 record
-        // This is the weird workaround that enables IsStandard to become true
-        // on the PricebookEntry record
-        update standardPricebook;
-        
-        // Re-Query for the Pricebook2 record, for debugging
-        standardPricebook = [SELECT IsStandard FROM Pricebook2 WHERE Id = :standardPricebook.Id];
-                
         // Create the Product
         Product2 testProduct = new Product2(
             Name = 'P1', 
@@ -31,10 +23,9 @@ global class PricingDemoServiceTest {
         PricebookEntry testPbe = new PricebookEntry(
             Pricebook2Id = standardPricebook.Id,
             Product2Id = testProduct.Id,
-            UnitPrice = 100,
+            UnitPrice = 90,
             IsActive = true
-        );
-        
+        );        
         insert testPbe;
     }
     
@@ -62,10 +53,6 @@ global class PricingDemoServiceTest {
         Test.stopTest();
     }
 
-    //    public override commercestorepricing.TransactionalPricingResponse processTransactionalPrice(
-        //commercestorepricing.TransactionalPricingRequest request
-
-
     @isTest static void testProcessTransactionalPrice() {
         System.debug('In PricingDemoServiceTest testProcessTransactionalPrice');        
 
@@ -76,7 +63,7 @@ global class PricingDemoServiceTest {
                 
         String lineId=product.Id;
         String productId = product.Id;
-        Decimal quantity = 100;
+        Decimal quantity = 1;
 
         Test.startTest();
 
@@ -89,9 +76,9 @@ global class PricingDemoServiceTest {
         
         PricingDemoService apexSample = new PricingDemoService();
         commercestorepricing.TransactionalPricingResponse response = apexSample.processTransactionalPrice(request);
-        // Verify: the integration executed successfully
-        //System.assertEquals(true, response.isSuccess());
-        //System.assertNotEquals(1, response.getTotalAmount());
+        commercestorepricing.TxnPricingResponseItemCollection requestCollection = response.getTxnPricingResponseItems();
+        System.assertEquals(1, requestCollection.size());
+
         Test.stopTest();
     }
 

@@ -7,7 +7,6 @@ global class PricingDemoService extends commercestorepricing.PricingService {
   
       System.debug('In PricingDemoService.PricingService processPrice, request=' + request);
       
-
       commercestorepricing.PricingResponse response = new commercestorepricing.PricingResponse('USD');      
 
       Set<String> products = new Set<String>();
@@ -39,31 +38,6 @@ global class PricingDemoService extends commercestorepricing.PricingService {
   
     }
 
-    /*
-public override commercestorepricing.TransactionalPricingResponse processTransactionalPrice(commercestorepricing.TransactionalPricingRequest request) {
-  
-  System.debug('In PricingDemoService.PricingService processTransactionalPrice request');
-
-  commercestorepricing.TransactionalPricingResponse res = null;
-
-    System.debug('In PricingDemoService.PricingService processTransactionalPrice before calling super');
-    
-    commercestorepricing.TransactionalPricingResponse transactionalPricingResponse = super.processTransactionalPrice(request);
-    
-    System.debug('In PricingDemoService.PricingService processTransactionalPrice after super');
-
-    transactionalPricingResponse.getTxnPricingResponseItems().get(0).setListPrice(15.0);
-    transactionalPricingResponse.getTxnPricingResponseItems().get(0).setTotalListPrice(15.0);
-    transactionalPricingResponse.getTxnPricingResponseItems().get(0).setTotalLineAmount(30.0);
-    transactionalPricingResponse.getTxnPricingResponseItems().get(0).setTotalPrice(30.0);
-    transactionalPricingResponse.getTxnPricingResponseItems().get(0).setUnitPrice(30.0);  
-
-    res = transactionalPricingResponse;
-
-    return res;
-}
-*/
-
 
 public override commercestorepricing.TransactionalPricingResponse processTransactionalPrice(
       commercestorepricing.TransactionalPricingRequest request
@@ -83,13 +57,10 @@ public override commercestorepricing.TransactionalPricingResponse processTransac
       Decimal unitAdjustmentAmount = 0.0;
       Decimal totalPrice = 0.0;
 
-      commercestorepricing.TransactionalPricingResponse response = new commercestorepricing.TransactionalPricingResponse(totalListPrice,  totalProductAmount,  totalAdjustmentAmount,  totalAmount, currencyIsoCode);
-
       commercestorepricing.TxnPricingRequestItemCollection requestCollection = request.getTxnPricingRequestItems();
+      commercestorepricing.TransactionalPricingResponse response = new commercestorepricing.TransactionalPricingResponse(totalListPrice,  totalProductAmount,  totalAdjustmentAmount,  totalAmount, currencyIsoCode);
       
       for (Integer j = 0; j < requestCollection.size(); j++) {
-
-        System.debug('In commercestorepricing.PricingService processTransactionalPrice, loop index=' + j);
 
         Double amount = 0.0;
         commercestorepricing.TransactionalPricingRequestItem requestItem = requestCollection.get(j);
@@ -113,48 +84,6 @@ public override commercestorepricing.TransactionalPricingResponse processTransac
 
       return response;
     }      
-  
-
-  /*
-  public override commercestorepricing.TransactionalPricingResponse processTransactionalPrice(
-    commercestorepricing.TransactionalPricingRequest request
-  ) {
-
-    System.debug('In commercestorepricing.PricingService processTransactionalPrice, request=' + request);
-
-    // Call the default internal pricing implemenation with either original request or modified request
-    commercestorepricing.TransactionalPricingResponse response = super.processTransactionalPrice(request);
-
-    commercestorepricing.TxnPricingResponseItemCollection responseCollection = response.getTxnPricingResponseItems();
-
-    commercestorepricing.TxnPricingRequestItemCollection requestCollection = request.getTxnPricingRequestItems();
-    for (Integer j = 0; j < requestCollection.size(); j++) {
-      Double amount = 0.0;
-      commercestorepricing.TransactionalPricingRequestItem requestItem = requestCollection.get(j);
-      commercestorepricing.TransactionalPricingResponseItem responseItem = responseCollection.get(j);
-      Decimal quantity = requestItem.getQuantity();
-      responseItem.setTotalPrice(90 * quantity);
-      responseItem.setTotalListPrice(100 * quantity);
-      responseItem.setUnitPrice(90);
-    }
-
-    // Update the total adjustment and amount at header level accordingly
-    response.setTotalAmount(response.getTotalProductAmount());
-
-    return response;
-  }
-*/
-
-    /*
-    private Map<String, String> getMappedCurrencies() {
-      Map<String, String> mappedCurrencies = new Map<String, String>();
-      mappedCurrencies.put('USD', 'EUR');
-      // Customers can easily provide a mapping for currencies in case they do not sell in some
-      // currencies or the prices are to be stored in a different currency. They can also have their
-      // custom conversions defined and used.
-      return mappedCurrencies;
-    }
-  */
   
     @TestVisible
     private String appendField(String prefix, String field) {
